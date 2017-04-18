@@ -1,2 +1,2 @@
 # Flower-Kingdom-Story
-A game made with Unity.
+A game made by ScatterWorks Games, with Unity.
