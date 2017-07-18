@@ -36,7 +36,6 @@ public class BattleManager : MonoBehaviour {
         {
             trigger = false;
             NextTurn();
-            
         }
     }
 
