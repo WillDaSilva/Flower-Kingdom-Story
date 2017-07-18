@@ -11,19 +11,18 @@ public class BattleEntity
     public int[] defense;
     public bool healthIsVisible;
 
-    public Dictionary<BattleEnums.StatusEffects, StatusEffect> statusEffects;
-    public Dictionary<BattleEnums.StatusEffects, StatusEffect> permanentEffects;
+    public List<StatusEffects> statusEffects;
 
-    public List<BattleEnums.StatusEffects> permanentImmunities;
-    public List<BattleEnums.StatusEffects> temporaryImmunities;
+    public List<StatusEffects> permanentImmunities;
+    public List<StatusEffects> temporaryImmunities;
 
-    public BattleEnums.Elements element;
-    public BattleEnums.GroundStates groundState;
+    public Elements element;
+    public GroundStates groundState;
     public List<Attack> attacks;
     public bool canAttack;
 
     public bool Grounded()
     {
-        return groundState == (BattleEnums.GroundStates.ground | BattleEnums.GroundStates.ceiling);
+        return groundState == (GroundStates.ground | GroundStates.ceiling);
     }
 }

@@ -5,7 +5,7 @@ using System.Collections;
 public enum ItemTypes { Consumable, Badge, Important }
 
 //Status effects are not an enum
-/*
+
 public enum StatusEffects
 {
     Asleep, Drowsy, Blind, Burned,
@@ -18,7 +18,7 @@ public enum StatusEffects
     //Health Effects
     Danger, Angry
 }
-*/
+
 /*
 Alternate StatusEffects enum setup
 
