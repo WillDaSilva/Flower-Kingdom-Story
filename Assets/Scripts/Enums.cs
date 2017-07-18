@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BattleEnums {
     public enum ItemTypes {Consumable, Badge, Important}
+
     public enum StatusEffects
     {
         Asleep, Drowsy, Blind, Burned,
@@ -15,6 +16,7 @@ public class BattleEnums {
         //Health Effects
         Danger, Angry
     }
+    */
     /*
     Alternate StatusEffects enum setup
     
