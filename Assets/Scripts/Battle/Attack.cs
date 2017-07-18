@@ -4,9 +4,9 @@ using UnityEngine;
 [SerializeField]
 public class Attack
 {
-    List<BattleEnums.GroundStates> attackableHeights;
-    BattleEnums.AttackablePos attackablePositions;
+    List<GroundStates> attackableHeights;
+    AttackablePos attackablePositions;
     bool physical;
-    BattleEnums.Elements element;
+    Elements element;
     int baseStrength;
 }
