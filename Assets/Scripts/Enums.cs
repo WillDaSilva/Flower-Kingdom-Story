@@ -46,3 +46,9 @@ public enum AttackablePos { front, any }
 
 public enum BattleStates { idle, player, enemy, dialogue } //From really early on. Not even sure if we'll need these anymore.
 
+public enum StatusEffectReapplyBehaviour { No_Effect,Stack,Reset,Burst,Remove} //No_Effect means that it cannot be applied when already afflicted, 
+                                                                               //Stack stacks the effects of it (Ex: can be burned multiple times)
+                                                                               //Reset resets the timer until it is removed
+                                                                               //Burst does an instantaneous effect
+                                                                               //Remove removes the effect
+
