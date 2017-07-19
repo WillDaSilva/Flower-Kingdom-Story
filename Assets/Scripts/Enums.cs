@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum StatusEffects
+public enum ItemType
 {
     Consumable,
     Badge,
     Important
+}
+
+public enum EffectActivationTrigger
+{
+    Turn_Start,
+    Move_Start,
+    On_Hit, // Entity gets hit by enemy
+    On_Attack // Entity attacks enemy
 }
 
 public enum StatusEffectType
@@ -84,4 +92,3 @@ public enum BattleStates //From really early on. Not even sure if we'll need the
     Enemy,
     Dialogue
 }
->>>>>>> Stashed changes
