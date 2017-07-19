@@ -4,7 +4,7 @@ using System.Collections;
 
 public enum ItemTypes { Consumable, Badge, Important }
 
-//Status effects are not an enum
+//Status Effect enums are used to make reference to the actual status effect object
 
 public enum StatusEffects
 {
