@@ -4,7 +4,8 @@ using System.Collections.Generic;
 //using TMPro;
 using System;
 
-public class BattleManager : MonoBehaviour {
+public class BattleManager : MonoBehaviour
+{
     public BattleEntity[] battleEntities = new BattleEntity[8];
     [SerializeField]
     int maxPartners;//Max amount of partners that can be in battle (not including player)
