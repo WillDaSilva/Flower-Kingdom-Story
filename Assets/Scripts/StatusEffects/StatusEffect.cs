@@ -11,7 +11,7 @@ public abstract class StatusEffect : MonoBehaviour
 
 public abstract class BattleStatusEffect : StatusEffect
 {
-    public abstract void Activate(EffectActivationTrigger);
+    public abstract void Activate(EffectActivationTrigger effectActivationTrigger);
 }
 
 public abstract class WorldStatusEffect : StatusEffect
