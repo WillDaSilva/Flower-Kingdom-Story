@@ -4,7 +4,8 @@ using System.Collections.Generic;
 //using TMPro;
 using System;
 
-public class BattleManager : MonoBehaviour {
+public class BattleManager : MonoBehaviour
+{
     public BattleEntity[] battleEntities = new BattleEntity[8];
     [SerializeField]
     int maxPartners;//Max amount of partners that can be in battle (not including player)
@@ -16,7 +17,8 @@ public class BattleManager : MonoBehaviour {
     public bool playerTurn { get; private set; }//is true when turn < maxPartners
     [SerializeField]
     int timesAround; //times every entity has gotten a turn and turn has overflowed back to 0
-    public BattleEnums.BattleStates battleState;
+    public BattleStates battleState;
+
     void Start()
     {
         battleEntities[0].currentHealth = Managers.Stats.currentHealth;
@@ -28,15 +30,16 @@ public class BattleManager : MonoBehaviour {
             }
         Managers.uiManager.UpdateHP();
     }
+
     void Update()
     {
         if (trigger)
         {
             trigger = false;
             NextTurn();
-            
         }
     }
+
     void NextTurn()
     {
         turn = Math.Wrap(turn + 1, 0, 7);
@@ -54,10 +57,12 @@ public class BattleManager : MonoBehaviour {
                 playerTurn = true;
             else playerTurn = false;
     }
+
     void FirstStrike()
     {
 
     }
+
     void OnAllComplete() //checks if turn has returned to 0, is not checked if entering into battle
     {
 
@@ -70,6 +75,7 @@ public class BattleManager : MonoBehaviour {
             }
         }
     }
+
     void Struck()
     {
 
