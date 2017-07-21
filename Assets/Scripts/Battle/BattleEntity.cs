@@ -23,6 +23,6 @@ public class BattleEntity
 
     public bool Grounded()
     {
-        return groundState == (GroundStates.ground | GroundStates.ceiling);
+        return groundState == (GroundStates.Ground | GroundStates.Ceiling | GroundStates.Underground);
     }
 }

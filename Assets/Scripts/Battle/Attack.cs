@@ -4,9 +4,9 @@ using UnityEngine;
 [System.Serializable]
 public class Attack
 {
-    public List<BattleEnums.GroundStates> attackableHeights;
-    public BattleEnums.AttackablePos attackablePositions;
-    public BattleEnums.Elements element;
+    public List<GroundStates> attackableHeights;
+    public AttackablePos attackablePositions;
+    public Elements element;
     public bool physical;
     public bool piercing;
 }
