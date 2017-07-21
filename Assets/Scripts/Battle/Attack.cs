@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[SerializeField]
+[System.Serializable]
 public class Attack
 {
-    List<BattleEnums.GroundStates> attackableHeights;
-    BattleEnums.AttackablePos attackablePositions;
-    bool physical;
-    BattleEnums.Elements element;
-    int baseStrength;
+    public List<BattleEnums.GroundStates> attackableHeights;
+    public BattleEnums.AttackablePos attackablePositions;
+    public BattleEnums.Elements element;
+    public bool physical;
+    public bool piercing;
 }
