@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bdefb47a92be1b14193a70c2e8f352dd
+timeCreated: 1501197823
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Martina
+  fontNames:
+  - Martina
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

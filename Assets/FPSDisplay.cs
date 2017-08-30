@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSDisplay : MonoBehaviour {
-    Text text;
+    Text fpsText;
     [SerializeField]
     float FPS, maxFPS, minFPS, avgFPS;
     [SerializeField]
@@ -16,7 +16,7 @@ public class FPSDisplay : MonoBehaviour {
     int[] fpsList;
 	void Start () {
         fpsList = new int[maxIterations];
-        text = transform.GetChild(0).GetComponent<Text>();
+        fpsText = transform.GetChild(0).GetComponent<Text>();
         InvokeRepeating("UpdateFPS", 0, updateInterval);
         x = 0;
 	}
@@ -34,7 +34,7 @@ public class FPSDisplay : MonoBehaviour {
         {
             if (i > maxFPS)
                 maxFPS = i;
-            if (i < minFPS)
+            if (i < minFPS && i != 0)
                 minFPS = i;
             if (i != 0)
             {
@@ -48,6 +48,6 @@ public class FPSDisplay : MonoBehaviour {
 
     }
 	void UpdateText() {
-        text.text = FPS.ToString("F0") + " FPS";
+        fpsText.text = FPS.ToString("F0") + " FPS";
 	}
 }
