@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +13,18 @@ public abstract class StatusEffect : MonoBehaviour
 public abstract class BattleStatusEffect : StatusEffect
 {
     public abstract void Activate(EffectActivationTrigger effectActivationTrigger);
-}
+    public virtual void Burst()
+    {
 
+    }
+}
+public class Burn: BattleStatusEffect
+{
+    public override void Activate(EffectActivationTrigger effectActivationTrigger)
+    {
+        
+    }
+}
 public abstract class WorldStatusEffect : StatusEffect
 {
     public abstract void StartEffect();

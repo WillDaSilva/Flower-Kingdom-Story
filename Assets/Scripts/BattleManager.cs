@@ -11,7 +11,8 @@ public class BattleManager : MonoBehaviour
     int maxPartners;//Max amount of partners that can be in battle (not including player)
     [SerializeField]
     int maxEnemies; //Max amount of enemies that can be in battle
-    public int turn { get; private set; } // turn number - ranges between 0 and (maxPartners+maxEnemies)(Ex)
+    //[SerializeField]
+    public int turn;// { get; private set; } // turn number - ranges between 0 and (maxPartners+maxEnemies)(Ex)
     [SerializeField]
     bool trigger, trigger2; //temporary, for calling NextTurn() in editor
     public bool playerTurn { get; private set; }//is true when turn < maxPartners
@@ -19,8 +20,38 @@ public class BattleManager : MonoBehaviour
     int timesAround; //times every entity has gotten a turn and turn has overflowed back to 0
     public BattleStates battleState;
 
+
+    public List<Vector3> startPositions;
+    public List<Transform> startPositionTransforms;
+
+    void OnValidate()
+    {
+        int i = 0;
+        foreach (Vector3 v3 in startPositions)
+        {
+            startPositions[i] = startPositionTransforms[i].position;
+            i++;
+        }
+    }
+    void Awake()
+    {
+        int i = 0;
+        foreach(BattleEntity e in battleEntities)
+        {
+            e.battleSlot = i;
+            i++;
+        }
+    }
     void Start()
     {
+        UpdateEntityIndexes();
+        foreach (BattleEntity e in battleEntities)
+        {
+            e.animator = e.transform.GetComponentInChildren<Animator>();
+        }
+
+        Attack pounce = new Attack("Pounce", AttackablePositions.Any, new GroundStates[] { GroundStates.Ground }, new Bounce());
+        battleEntities[1].attacks.Add(pounce);
         battleEntities[0].currentHealth = Managers.Stats.currentHealth;
         if (maxPartners > 0)
             for (int i = 1; i > maxPartners; i++)
@@ -30,7 +61,15 @@ public class BattleManager : MonoBehaviour
             }
         Managers.uiManager.UpdateHP();
     }
-
+    void UpdateEntityIndexes()
+    {
+        int i = 0;
+        foreach (BattleEntity be in battleEntities)
+        {
+            be.battleSlot = i;
+            i++;
+        }
+    }
     void Update()
     {
         if (trigger)
@@ -38,24 +77,37 @@ public class BattleManager : MonoBehaviour
             trigger = false;
             NextTurn();
         }
+        if (Input.GetButtonDown("Jump"))
+        {
+            battleEntities[1].attacks[0].Start(new BattleEntity[] { battleEntities[1] }, new BattleEntity[] { battleEntities[maxPartners + 1] });
+            
+        }
     }
-
-    void NextTurn()
+    public void Switch(int i1, int i2)
     {
-        turn = Math.Wrap(turn + 1, 0, 7);
-        OnAllComplete();
+        BattleEntity temp = battleEntities[i1];
+        battleEntities[i2] = battleEntities[i1];
+        battleEntities[i1] = temp;
+    }
+    public void NextTurn()
+    {
+        if (!battleEntities[turn].HasStatusEffect(StatusEffects.Fast))
+        {
+            turn = Math.Wrap(turn + 1, 0, 7);
+            OnAllComplete();
             int i = 0;
             while (!battleEntities[turn].canAttack) //keep skipping an entity's turn if it is unable to make a move
             {
                 i++;
                 NextTurn();
                 OnAllComplete();
-                if (i > 100) //failsafe to prevent a crash.
+                if (i > 100) //failsafe to prevent a crash for if nobody can make a move.
                     break;
             }
             if (turn < maxPartners)
                 playerTurn = true;
             else playerTurn = false;
+        }
     }
 
     void FirstStrike()
