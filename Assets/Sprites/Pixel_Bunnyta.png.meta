@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: 6257ec42110443641ae181fee6891cc9
-timeCreated: 1505967607
+guid: bd9399d92ce391c4a8b3b988d3d207b1
+timeCreated: 1506063721
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Pixel_Mallowdy_0
-    21300002: Pixel_Mallowdy_1
-    21300004: Pixel_Mallowdy_2
-    21300006: Pixel_Mallowdy_3
-    21300008: Pixel_Mallowdy_4
-    21300010: Pixel_Mallowdy_5
-    21300012: Pixel_Mallowdy_6
-    21300014: Pixel_Mallowdy_7
+    21300000: Pixel_Bunnyta_0
+    21300002: Pixel_Bunnyta_1
+    21300004: Pixel_Bunnyta_2
+    21300006: Pixel_Bunnyta_3
+    21300008: Pixel_Bunnyta_4
+    21300010: Pixel_Bunnyta_5
+    21300012: Pixel_Bunnyta_6
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -48,7 +47,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 20
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -78,104 +77,91 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pixel_Mallowdy_0
+      name: Pixel_Bunnyta_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_1
+      name: Pixel_Bunnyta_1
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_2
+      name: Pixel_Bunnyta_2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_3
+      name: Pixel_Bunnyta_3
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_4
+      name: Pixel_Bunnyta_4
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_5
+      name: Pixel_Bunnyta_5
       rect:
         serializedVersion: 2
         x: 80
         y: 0
         width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pixel_Mallowdy_6
+      name: Pixel_Bunnyta_6
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Pixel_Mallowdy_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 24
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
