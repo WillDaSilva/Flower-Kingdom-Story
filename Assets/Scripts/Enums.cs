@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 public enum ItemType
 {
     Consumable,
@@ -35,29 +33,31 @@ public enum StatusEffectReapplyBehaviour
 
 public enum StatusEffects
 {
-    Asleep,
-    Drowsy,
-    Blind,
-    Burned,
-    DEF_Down,
-    DEF_Up,
-    Dizzy,
-    Agile,
+    Asleep,     //Immoblile. Being hit has chance of waking affected up
+    Drowsy,     //Will fall asleep in 1 turn
+    Blind,      //Acton command prompts are harder to see
+    Burned,     //Afflicted will take fire damage each turn
+    DEF_Down,   //Decreases defence of the afflicted
+    DEF_Up,     //Increases defence of the afflicted
+    Dizzy,      //Afflicted will take random attacks
+    Agile,      //Afflicted has a chance of dodging attacks
+    Fast,       //Can do 2 actions in 1 turn
+    Slow,       //Do 1 action every second turn
     Electrified,
-    Frozen,
-    Large,
-    Immobilized,
-    Invisible,
-    ATK_Down,
-    ATK_Up,
-    Spiked,
-    Charmed,
-    Poisoned,
-    Regen,
-    Shrunk,
-    No_Items,
-    Danger,
-    Angry
+    Frozen,     //Renders affliced immobile. Fire will cancel this status
+    Large,      //+2 attack power
+    Shrunk,     //-2 Attack power
+    Immobilized,//Unable to do any actions
+    Invisible,  //Intangible, can't be hit
+    ATK_Down,   //Decreases attack
+    ATK_Up,     //Increases attack
+    Spiked,     //Can't be hit by physical attacks
+    Charmed,    //
+    Poisoned,   //Afflicted takes damage every turn
+    Regen,      //Regenerates health
+    No_Items,   //Can't use any items
+    Danger,     //Low HP
+    Angry       //Increased damage, decreased defense
 }
 
 public enum Elements
@@ -67,6 +67,13 @@ public enum Elements
     Ice,
     Wind,
     Explosion
+}
+public enum ActionCommandType
+{
+    Success,
+    Defense = Success,
+    Counter = Success,
+    Fancy
 }
 
 public enum GroundStates
@@ -78,11 +85,11 @@ public enum GroundStates
     Ceiling
 }
 
-public enum AttackablePos
+public enum AttackablePositions
 {
     Front,
-    Back,
-    Any
+    //Back,
+    Any = Front//|Back
 }
 
 public enum BattleStates //From really early on. Not even sure if we'll need these anymore.
