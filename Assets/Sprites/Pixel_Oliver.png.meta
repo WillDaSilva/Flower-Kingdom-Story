@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: b40fa8d879aa4df4e8a99a9eaeb86fb7
-timeCreated: 1505633242
+guid: 2eb4b7f99dec2f84eaca8f872f494dbf
+timeCreated: 1506125559
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Pix_Oliver_Idle
-    21300002: Pix_Oliver_Walk
-    21300004: Pix_Oliver_Run_1
-    21300006: Pix_Oliver_Run_2
-    21300008: Pix_Oliver_WalkB_1
-    21300010: Pix_Oliver_WalkB_2
-    21300012: Pix_Oliver_Jump
+    21300000: WalkA1
+    21300002: WalkA2
+    21300004: Run1
+    21300006: Run2
+    21300008: WalkB1
+    21300010: WalkB2
+    21300012: Jump
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -77,7 +77,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pix_Oliver_Idle
+      name: WalkA1
       rect:
         serializedVersion: 2
         x: 0
@@ -90,7 +90,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_Walk
+      name: WalkA2
       rect:
         serializedVersion: 2
         x: 16
@@ -103,7 +103,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_Run_1
+      name: Run1
       rect:
         serializedVersion: 2
         x: 32
@@ -116,7 +116,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_Run_2
+      name: Run2
       rect:
         serializedVersion: 2
         x: 48
@@ -129,7 +129,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_WalkB_1
+      name: WalkB1
       rect:
         serializedVersion: 2
         x: 64
@@ -142,7 +142,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_WalkB_2
+      name: WalkB2
       rect:
         serializedVersion: 2
         x: 80
@@ -155,7 +155,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pix_Oliver_Jump
+      name: Jump
       rect:
         serializedVersion: 2
         x: 96
@@ -163,7 +163,7 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.58333665}
+      pivot: {x: 0.5, y: 0.5416667}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
