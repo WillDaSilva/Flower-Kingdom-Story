@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour {
     public float baseJumpStrength, midJumpStrength;
     Transform rotationT;
 
+    OverworldCameraFollower camFollower;
+
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour {
         billboarder = GetComponentInChildren<Billboarder>();
         rotationT = transform.GetChild(0);
         swapper = GetComponentInChildren<SpriteSwapper>();
+        camFollower = FindObjectOfType<OverworldCameraFollower>();
     }
     void Start()
     {
@@ -42,7 +45,10 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         float r = spriteRotation.currentAngle;// * 2;
-
+        if (!groundCheck.grounded)
+            rigidBody.AddForce(Physics.gravity);
+        //else rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0, rigidBody.velocity.z);
+        
 
         if (Input.GetButton("Jump") && !groundCheck.grounded && rigidBody.velocity.y > 0)
             rigidBody.AddForce(midJumpStrength * Vector3.up, ForceMode.Acceleration);
@@ -99,15 +105,18 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         #endregion
+
+
+        #region scaling
         float totaZScale = billboarder.zScale;// * billboarder.camSide;
         if (r > 0 && r < 90)        //backright to backleft
         {
-            rotationT.localScale = new Vector3(billboarder.camSide, 1, totaZScale);
+            //rotationT.localScale = new Vector3(billboarder.camSide, 1, totaZScale);
             swapper.LoadSprites(null);
         }
         else if (r > 90 && r < 180) //backleft to topleft
         {
-            rotationT.localScale = new Vector3(-totaZScale, 1, totaZScale);
+            //rotationT.localScale = new Vector3(-totaZScale, 1, totaZScale);
             if (totaZScale == 1)
                 swapper.LoadSprites("back");
             else if (totaZScale == -1)
@@ -115,17 +124,20 @@ public class PlayerController : MonoBehaviour {
         }
         else if (r > 180 && r < 270)//topleft to topright
         {
-            rotationT.localScale = new Vector3(-billboarder.camSide, 1, totaZScale);
+            //rotationT.localScale = new Vector3(-billboarder.camSide, 1, totaZScale);
             swapper.LoadSprites("back");
         }
         else if (r > 270 && r < 720)//topright to backright
         {
-            rotationT.localScale = new Vector3(totaZScale, 1, totaZScale);
+            //rotationT.localScale = new Vector3(totaZScale, 1, totaZScale);
             if (totaZScale == 1)
                 swapper.LoadSprites(null);
             else if (totaZScale == -1)
                 swapper.LoadSprites("back");
         }
+        #endregion
+
+
         //print("r: " + r + "camSide: " + billboarder.camSide + " zScale: " + billboarder.zScale + " ");
         //print(r)
         //print(rigidBody.velocity.y);
@@ -133,15 +145,18 @@ public class PlayerController : MonoBehaviour {
         //Vector3[] casts = new Vector3 { }
         if (groundCheck.grounded)
         {
-            rigidBody.velocity = Joysticks.LStick.StepInput * maxSpeed + Vector3.up * rigidBody.velocity.y;
+            rigidBody.velocity = transform.TransformDirection(Joysticks.LStick.StepInput * maxSpeed + Vector3.up * rigidBody.velocity.y);
             if (Joysticks.LStick.StepInput.magnitude != 0)
+            {
                 //if (rigidBody.velocity.magnitude > 0.1)
-                animator.Play("Walk");
+                animator.Play("Walk 0");
+                animator.SetFloat("Speed", Joysticks.LStick.StepInput.magnitude/2 + 0.5f );
+            }
             else animator.Play("Idle");
         }
         else
         {
-            rigidBody.AddForce(Joysticks.LStick.StepInput * maxSpeed);
+            rigidBody.AddForce(transform.TransformDirection(Joysticks.LStick.StepInput * maxSpeed), ForceMode.Acceleration);
             animator.Play("Jump");
         }
         groundCheck.jumping = Mathf.Abs(rigidBody.velocity.y) > 1f;

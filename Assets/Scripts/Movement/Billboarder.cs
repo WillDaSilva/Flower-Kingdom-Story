@@ -53,7 +53,7 @@ public class Billboarder : MonoBehaviour {
         {
             zScale = 1;
         }
-        
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, zScale);
         /*if (turn)
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(new Vector3(transform.localRotation.x, direction, transform.localRotation.z)), Time.fixedDeltaTime * 9);//0.15f
