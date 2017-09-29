@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour {
 
-    public bool grounded, jumping;
-    public float maxStepHeight, tolerance;
+    public bool grounded, goodAngle, goodHeight, jumping;
+    public float maxStepHeight, tolerance, maxAngle;
     BoxCollider box;
     //RaycastHit[,] hits = new RaycastHit[3, 3];
     RaycastHit[] hits = new RaycastHit[9];
@@ -37,22 +37,25 @@ public class GroundCheck : MonoBehaviour {
         0,2 | 1,2 | 2,2
         */
 
-        rayHits[0] = Physics.Raycast(transform.position + new Vector3(0, maxStepHeight, boxZ), Vector3.down, out hits[0]);//[1, 0]);//Top
-        rayHits[1] = Physics.Raycast(transform.position + new Vector3(0, maxStepHeight, -boxZ), Vector3.down, out hits[1]);//[1, 2]);//Bot
-        rayHits[2] = Physics.Raycast(transform.position + new Vector3(-boxX, maxStepHeight, 0), Vector3.down, out hits[2]);//[0, 1]);//Left
-        rayHits[3] = Physics.Raycast(transform.position + new Vector3(boxX, maxStepHeight, 0), Vector3.down, out hits[3]);//[2, 1]);//Right
+        rayHits[0] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, boxZ)), Vector3.down, out hits[0]);//[1, 0]);//Top
+        rayHits[1] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, -boxZ)), Vector3.down, out hits[1]);//[1, 2]);//Bot
+        rayHits[2] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, 0)), Vector3.down, out hits[2]);//[0, 1]);//Left
+        rayHits[3] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, 0)), Vector3.down, out hits[3]);//[2, 1]);//Right
 
-        rayHits[4] = Physics.Raycast(transform.position + new Vector3(0, maxStepHeight, 0), Vector3.down, out hits[4]);//[1, 1]);//Mid
+        rayHits[4] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, 0)), Vector3.down, out hits[4]);//[1, 1]);//Mid
 
-        rayHits[5] = Physics.Raycast(transform.position + new Vector3(-boxX, maxStepHeight, boxZ), Vector3.down, out hits[5]);//[0, 0]);//TopLeft
-        rayHits[6] = Physics.Raycast(transform.position + new Vector3(boxX, maxStepHeight, boxZ), Vector3.down, out hits[6]);//[2, 0]);//TopRight
-        rayHits[7] = Physics.Raycast(transform.position + new Vector3(-boxX, maxStepHeight, -boxZ), Vector3.down, out hits[7]);//[0, 2]);//BotLeft
-        rayHits[8] = Physics.Raycast(transform.position + new Vector3(boxX, maxStepHeight, -boxZ), Vector3.down, out hits[8]);//[2, 2]);//BotRight
+        rayHits[5] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, boxZ)), Vector3.down, out hits[5]);//[0, 0]);//TopLeft
+        rayHits[6] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, boxZ)), Vector3.down, out hits[6]);//[2, 0]);//TopRight
+        rayHits[7] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[7]);//[0, 2]);//BotLeft
+        rayHits[8] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[8]);//[2, 2]);//BotRight
 
 
         int i = 0;
         grounded = false;
         float h = Mathf.Infinity; //the farthest distance
+
+        goodAngle = false;
+        goodHeight = false;
 
         foreach (RaycastHit hit in hits)
         {
@@ -61,20 +64,26 @@ public class GroundCheck : MonoBehaviour {
                 d = Mathf.Infinity;
             else if (d < h)
                 h = d;
-            if (Vector3.Angle(hit.normal, Vector3.up) <= 45 && d < tolerance)
-            {
+
+            if (Vector3.Angle(hit.normal, Vector3.up) <= maxAngle)
+                goodAngle = true;
+
+            if (d < tolerance)
+                goodHeight = true;
+
+            if (goodAngle && goodHeight)
                 grounded = true;
-            }
+
             //print(d + " " + i);
             //print(Vector3.Angle(hit.normal, Vector3.up))
             //print (i + ", " + h);
             Debug.DrawRay(hit.point, Vector3.up,Color.red);
             i++;
         }
-        if (!jumping)
+        if (!jumping && goodAngle && Mathf.Abs(h) <= maxStepHeight + tolerance)
             if (grounded)
-                transform.position -= h * Vector3.up;
-            else if (!grounded && groundedLastFrame && h < maxStepHeight)
+                transform.position -= (h - 0.0001f) * Vector3.up;
+            else if (!grounded && groundedLastFrame)
             {
                 transform.position -= Vector3.up * h;
                 grounded = true;
