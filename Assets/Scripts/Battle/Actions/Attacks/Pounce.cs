@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bounce: AttackAnimation
+public class Bounce: TempAttackAnimation
 {
     //Animator[] users[0].animator, target[0].animator;
 
@@ -18,19 +18,19 @@ public class Bounce: AttackAnimation
 
     protected float walkSpeed = 5;
 
-    protected float startTime, airTime;
+    protected float airTime;
 
     protected float jumpHitHeight;
 
     protected float[] maxHeights = new float[]{ 2+1, 2+1, 1.5f+1 };
-    protected float time;
+    //protected float time;
 
-
+    float targetDirection;
     bool canDo;
 
-    public override void Start(BattleEntity[] user, BattleEntity[] target)
+    protected override void OnStart()//BattleEntity[] user, BattleEntity[] target, Attack attack
     {
-        base.Start(user, target);
+        base.OnStart();
         camfollower = Camera.main.transform.GetComponent<CameraFollower>();
         i = 0;
         startTime = Time.fixedTime;
@@ -42,8 +42,10 @@ public class Bounce: AttackAnimation
         
         users[0].animator.Play("Walk");
         i = 0;
+        
+        targetDirection = Mathf.Sign(targets[0].transform.position.x - users[0].transform.position.x);
     }
-    public override void Update()
+    protected override void OnUpdate()
     {
         time = Time.fixedTime - startTime;
 
@@ -163,17 +165,15 @@ public class Bounce: AttackAnimation
 }
 public class Pounce: Bounce
 {
-    public override void Start(BattleEntity[] user, BattleEntity[] target)
+    protected override void OnStart()//BattleEntity[] user, BattleEntity[] target, Attack attack
     {
         maxHeights = new float[] {3,3,2};
-        base.Start(user, target);
+        base.OnStart();//user, target, attack
     }
-    public override void Update()
+    protected override void OnUpdate()
     {
-        //Vector3 lastPosition = users[0].transform.position;
-        base.Update();
+        base.OnUpdate();
         time = Time.fixedTime - startTime;
-        //Vector3 normalizedDirection = (users[0].transform.position - lastPosition).normalized;
         switch (i)
         {
             case 1:
@@ -192,6 +192,5 @@ public class Pounce: Bounce
                 break;
 
         }
-        //Debug.Log(normalizedDirection);
     }
 }

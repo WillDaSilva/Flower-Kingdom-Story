@@ -1,8 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action
+public class Action: ICloneable
 {
-    public string name;
+    public ActionAnimation animation { get; protected set; }
+
+    public void Start()
+    {
+
+    }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
+
 }
