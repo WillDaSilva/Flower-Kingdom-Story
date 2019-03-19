@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 9739eb1d3481fa04db3e3e98b398c994
-timeCreated: 1502618373
+guid: 0321f1579514ce941ba446e89286cf04
+timeCreated: 1510169969
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Bunny_Mouth_0
-    21300002: Bunny_Mouth_1
-    21300004: Bunny_Mouth_2
-    21300006: Bunny_Mouth_3
+    21300000: InteractionBubble_Speech2_0
+    21300002: InteractionBubble_Speech2_1
+    21300004: InteractionBubble_Speech2_2
+    21300006: InteractionBubble_Speech2_3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -44,7 +44,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -57,7 +57,7 @@ TextureImporter:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -65,7 +65,7 @@ TextureImporter:
   - buildTarget: Standalone
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -74,54 +74,54 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bunny_Mouth_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 239
-        width: 148
-        height: 94
-      alignment: 9
-      pivot: {x: 0.5383863, y: 0.57722634}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Bunny_Mouth_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 150
-        width: 148
-        height: 70
-      alignment: 9
-      pivot: {x: 0.5383863, y: 0.57665056}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Bunny_Mouth_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 65
-        width: 148
-        height: 61
-      alignment: 9
-      pivot: {x: 0.5459985, y: 0.6116029}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Bunny_Mouth_3
+      name: InteractionBubble_Speech2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 148
-        height: 61
-      alignment: 9
-      pivot: {x: 0.5393419, y: 0.57809776}
+        width: 288
+        height: 288
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: InteractionBubble_Speech2_1
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 288
+        height: 288
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: InteractionBubble_Speech2_2
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 288
+        height: 288
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: InteractionBubble_Speech2_3
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 288
+        height: 288
+      alignment: 8
+      pivot: {x: 1, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
