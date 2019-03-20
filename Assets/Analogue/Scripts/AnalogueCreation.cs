@@ -10,14 +10,23 @@ namespace Analogue
         {
             Analogue_Node node;
 
-            if (type == NodeType.Dialogue)
-                node = new Analogue_Dialogue();
-            else if (type == NodeType.Choice)
-                node = new Analogue_Choice();
-            else if (type == NodeType.Bool)
-                node = new Analogue_Bool();
-            else// if (type == NodeType.Script) // is 'else' because 'else if' throws a compiler error;
-                node = new Analogue_Script(); //remove first '//' above when adding more nodes and else for final additional node
+            switch (type)
+            {
+                default:
+                case NodeType.Dialogue:
+                    node = new Analogue_Dialogue();
+                    break;
+                case NodeType.Choice:
+                    node = new Analogue_Choice();
+                    break;
+                case NodeType.Bool:
+                    node = new Analogue_Bool();
+                    break;
+                case NodeType.Script:
+                    node = new Analogue_Script();
+                    break;
+            }
+
             int generatedID;
             do
             { //continues to attempt to generate unique ID until new ID is generated
