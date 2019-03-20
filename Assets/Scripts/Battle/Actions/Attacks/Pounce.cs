@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bounce: TempAttackAnimation
 {
     //Animator[] users[0].animator, target[0].animator;
-
+    
     CameraFollower camfollower;
     protected int i = 0;
     float y;
@@ -33,33 +33,34 @@ public class Bounce: TempAttackAnimation
         base.OnStart();
         camfollower = Camera.main.transform.GetComponent<CameraFollower>();
         i = 0;
-        startTime = Time.fixedTime;
+        ResetTimer();
         startPosition = Managers.battleManager.startPositions[users[0].battleSlot];
         endPosition = Managers.battleManager.startPositions[targets[0].battleSlot];
         offsetPosition = endPosition - 2 * Vector3.right;
         distance = Vector3.Distance(startPosition, offsetPosition);
         jumpHitHeight = targets[0].transform.position.y + targets[0].jumpAttackOffset;
-        
-        users[0].animator.Play("Walk");
         i = 0;
         
         targetDirection = Mathf.Sign(targets[0].transform.position.x - users[0].transform.position.x);
+
+        users[0].animator.Play("Walk");
     }
     protected override void OnUpdate()
     {
-        time = Time.fixedTime - startTime;
-
+        base.OnUpdate();
         switch (i) // action index
         {
             #region Succsseful
             case 0: //walk right
                 y = 0;
+                //Debug.Log("Time:" + time + " dist: " + distance + " perc: " + percent);
                 percent = Mathf.Clamp01(time / (distance / walkSpeed));
                 users[0].transform.position = Vector3.Lerp(startPosition, offsetPosition, percent);
 
+                //when certain distance from target, start jump
                 if (percent >= 1)
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     airTime = Parabola.CalculateHitTime(0, maxHeights[0] + jumpHitHeight, jumpHitHeight, gravity);
                     i = 1;
 
@@ -77,7 +78,7 @@ public class Bounce: TempAttackAnimation
                 users[0].transform.position = Vector3.Lerp(offsetPosition, endPosition, percent) + y * Vector3.up;
                 if (percent >= 1)
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     i = 101;
                     users[0].animator.Play("JumpHit");
                 }
@@ -86,7 +87,7 @@ public class Bounce: TempAttackAnimation
             case 101: //first hit (Action command here)
                 if (time >= hitTime)
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     airTime = Parabola.CalculateHitTime(0, maxHeights[1], 0, gravity);
                     users[0].transform.position = endPosition + jumpHitHeight * Vector3.up;
                     i = 2;
@@ -101,7 +102,7 @@ public class Bounce: TempAttackAnimation
                 //users[0].transform.GetChild(0).transform.eulerAngles = rot;
                 if (time >= airTime)
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     offsetPosition -= Vector3.right;//targets[0].transform.position - 3 * Vector3.right;
                     airTime = Parabola.CalculateHitTime(jumpHitHeight, jumpHitHeight + maxHeights[2], 0, gravity);
                     i=102;
@@ -112,7 +113,7 @@ public class Bounce: TempAttackAnimation
             case 102://second hit (Action command here)
                 if (time >= hitTime)
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     i = 3;
                     canDo = true;
                     users[0].animator.Play("Jump");
@@ -129,8 +130,8 @@ public class Bounce: TempAttackAnimation
                 if (percent >= 1)
                 {
                     users[0].transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-                    startTime = Time.fixedTime;
-                    i=5;
+                    ResetTimer();
+                    i = 5;
 
                     users[0].animator.Play("Walk");
                 }
@@ -139,7 +140,7 @@ public class Bounce: TempAttackAnimation
             case 4:
                 if (time >= 0.3 )
                 {
-                    startTime = Time.fixedTime;
+                    ResetTimer();
                     i++;
 
                     users[0].animator.Play("Walk");

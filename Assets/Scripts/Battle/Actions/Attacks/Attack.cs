@@ -10,44 +10,52 @@ public class Attack: Action
     {
         name = attackName;
         animation = atkAnimation;
-        piercing = isPiercing;
+        this.isPiercing = isPiercing;
         this.element = element;
         attackablePositions = pos;
         foreach (GroundStates groundState in gs)
             attackableHeights.Add(groundState);
     }
-    public Attack(string attackName) // To be used for creating new instances of an existing attack instance with only a name
+    // To be used for creating new instances of an existing attack instance with only a name
+    public Attack(string attackName) 
     {
         name = attackName;
-
-
+        
     }
     /*Attack(BattleEntity[] user, BattleEntity[] target)
     {
         users = targets;
     }*/
+    //Default method of calcuating the amount of attack power that will be inflicted. May be overridden.
     public virtual int CalculateAttackPower()
     {
-        return 0;
+        int totalDamage = 0;
+
+        return totalDamage;
     }
-    //public int attackPower;
+    //The height values the attack may be targeted towards;
     public HashSet<GroundStates> attackableHeights = new HashSet<GroundStates>();
-    public AttackablePositions attackablePositions { get; private set; }
+    //whether the attack can be directed towards either the frontmost, or any target. I should probably just replace it with a bool.
+    public AttackablePositions attackablePositions;
+    //the element modifier of the attack
     public Elements element { get; private set; }
-    public bool physical { get; private set; }
-    public bool piercing { get; private set; }
-    [System.Obsolete("Can be identified with a 'physicaal' boolean instead")]public bool counterCancelsAttack { get; private set; }
+    //whether body-to-body contact is made with the target
+    public bool isPhysical { get; private set; }
+    //whether the attack value bypasses the defence value of the target.
+    public bool isPiercing { get; private set; }
+    public bool reboundableProjectile { get; private set; }
+    [System.Obsolete("Should be identified with the 'isPhysical' boolean instead")]
+    public bool counterCancelsAttack { get; private set; }
     //new public TempAttackAnimation animation { get; private set; }
     public void Start(BattleEntity[] users, BattleEntity[] targets)
     {
         if (Managers.battleManager.currentAction == null || Managers.battleManager.currentAction.animation.isDone) //Managers.battleManager.currentAction == null
         {
-            //if (animation.isDone)
             Managers.battleManager.currentAction = this;
             ((TempAttackAnimation)animation).Start(users, targets, this);
         }
         else
-            Debug.LogError("You can't start an attack if it's already started!");
+            Debug.LogError("You can't start an attack if one has already started!");
         
     }
     /*

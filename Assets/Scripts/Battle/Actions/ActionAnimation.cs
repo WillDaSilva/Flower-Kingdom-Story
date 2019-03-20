@@ -14,7 +14,7 @@ public class ActionAnimation
     public bool isDone { get; protected set; }
     protected virtual void OnStart() //Something
     {
-        startTime = Time.fixedTime;
+        ResetTimer();
     }
     protected virtual void OnUpdate()
     {
@@ -40,6 +40,10 @@ public class ActionAnimation
             OnUpdate();
             yield return new WaitForFixedUpdate();
         }
+    }
+    protected void ResetTimer()
+    {
+        startTime = Time.fixedTime;
     }
     /*public void Start(BattleEntity[] users, BattleEntity[] targets)
     {
