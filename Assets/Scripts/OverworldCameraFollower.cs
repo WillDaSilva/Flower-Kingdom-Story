@@ -40,6 +40,12 @@ public class OverworldCameraFollower : MonoBehaviour {
         if (playerY < lastY)
             lastY = playerY;
 
+        Vector3 targetPosition = Vector3.LerpUnclamped(Vector3.zero, farPosition.localPosition, distance / camDistance);
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, targetPosition + Vector3.up*heightOffset, 0.1f);
+
         transform.position = Vector3.Lerp(transform.position, targetXZ + lastY * Vector3.up, 0.075f);
+        //transform.rotation = target.rotation;
+        transform.localEulerAngles += -Joysticks.RStick.StepInput.x * Vector3.up;
+        distance += -Joysticks.RStick.StepInput.z* Time.fixedDeltaTime*10;
     }
 }
