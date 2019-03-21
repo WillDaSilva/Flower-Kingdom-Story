@@ -35,10 +35,14 @@ public class BattleEntity
         return groundState == (GroundStates.Ground | GroundStates.Ceiling | GroundStates.Underground);
     }*/
 
+        //gives an entity a set amount of HP
     public void GiveHealth(int amount)
     {
+        animator.Play("PoweredUp");
         currentHealth = Mathf.Min(maxhealth + amount, maxhealth);
     }
+
+    //if has effect (enum input)
     public bool HasStatusEffect(StatusEffects effect)
     {
         if (statusEffects.ContainsKey(effect))
@@ -47,33 +51,55 @@ public class BattleEntity
             return true;
         return false;
     }
-    public bool HasStatusEffect(StatusEffect effect)
-    {
-        return HasStatusEffect(effect.effect);
-    }
 
-    public void GiveStatusEffect(StatusEffect effect)
+    //Attempt afflicting entity with the given status effect
+    public void TryGiveStatusEffect(StatusEffect effect)
     {
-        if (HasStatusEffect(effect))
-            statusEffects.Add(effect.effect, effect);
-        else
-            statusEffects[effect.effect] = effect;
+        //so long as the entity is not immune to the effect
+        if (!IsImmuneTo(effect.effect))
+        {
+            //if entity does not have the statuseffect, give it to it.
+            if (!statusEffects.ContainsKey(effect.effect))
+                statusEffects.Add(effect.effect, effect);
+            //otherwise, check its reapply behaviour
+            else
+                switch (effect.reapplyBehaviour)
+                {
+                    case StatusEffectReapplyBehaviour.No_Effect:
+                        //does literally nothing.
+                        break;
+                    case StatusEffectReapplyBehaviour.Stack:
+                        statusEffects[effect.effect].level += effect.level;
+                        break;
+                    case StatusEffectReapplyBehaviour.Extend:
+                        statusEffects[effect.effect].length += effect.length;
+                        break;
+                    case StatusEffectReapplyBehaviour.Burst:
+                        ((BattleStatusEffect)statusEffects[effect.effect]).Burst();
+                        break;
+                    case StatusEffectReapplyBehaviour.Reset:
+                        statusEffects[effect.effect].length = effect.length;
+                        break;
+                    case StatusEffectReapplyBehaviour.Remove:
+                        statusEffects.Remove(effect.effect);
+                        break;
+                }
+        }
     }
-    public void GiveStatusEffects(StatusEffect[] effects)
+    public void TryGiveStatusEffects(StatusEffect[] effects)
     {
-        foreach (StatusEffect eff in effects)
-            GiveStatusEffect(eff);
-    }
-
-    public void RemoveStatusEffect(StatusEffects effect)
-    {
-        statusEffects.Remove(effect);
+        foreach (BattleStatusEffect effect in effects)
+            TryGiveStatusEffect(effect);
     }
 
     public void RemoveStatusEffects(StatusEffects[] effects)
     {
         foreach (StatusEffects effect in effects)
-            RemoveStatusEffect(effect);
+            statusEffects.Remove(effect);
+    }
+    public void RemoveStatusEffect(StatusEffects effect)
+    {
+
     }
     public bool IsImmuneTo(StatusEffects effect)
     {
@@ -81,50 +107,61 @@ public class BattleEntity
             return true;
         return false;
     }
-    public bool IsImmuneTo(StatusEffect effect)
-    {
-        return IsImmuneTo(effect.effect);
-    }
+
     bool IsWeakTo(Elements element)
     {
         return false;//replace with elemt damage calculation
     }
-    public void TryDamage(BattleEntity target, Attack attack, int basePower)
+    bool IsStrongTo(Elements element)
     {
-        int totalDamage = basePower;
-        //if (IsWeakTo(attack.element))
-        //baseDamage += 2;
+        return false;//replace with elemt damage calculation
+    }
+    
+    void TryDamage(Attack attack, int basePower)
+    {
+        int totalDamage;
 
-        if (!attack.piercing && basePower > currentDefence)
-            totalDamage = Mathf.Max(basePower - currentDefence, 0);
-        else if (basePower <= currentDefence)
-            totalDamage = 0;
+        //if is a nonpiercing attack
+        if (!attack.isPiercing)
+            totalDamage = Mathf.Min(basePower - currentDefence, 0);
+        //if is a piercing attack
         else totalDamage = basePower;
 
-        /*if (target.element == attack.element && attack.element != Elements.None)
-        {
-            target.GiveHealth(totalDamage);
-            target.animator.Play("PoweredUp");
-        }*/
-        if (totalDamage != 0)
+        if (IsWeakTo(attack.element))
+            totalDamage += 2;
+        else if (IsStrongTo(attack.element))
+            totalDamage -= 2;
+
+        if (element == attack.element && attack.element != Elements.None)
+            GiveHealth(totalDamage);
+
+        if (totalDamage > 0)
         {
             currentHealth = Mathf.Max(currentHealth - totalDamage, 0);
-            target.animator.Play("Damaged");
+            animator.Play("Damaged");
         }
-        else 
-        {
+        else
             //play 'no damage' particle effects
-            target.animator.Play("Undamaged");
-        }
-
+            animator.Play("Undamaged");
     }
+
+    public void TryToDamage(BattleEntity target, Attack attack, int basePower)
+    {
+        foreach (StatusEffect eff in statusEffects.Values)
+        {
+            ((BattleStatusEffect)eff).Activate(EffectActivationTrigger.On_Attack);
+        }
+        foreach (StatusEffect eff in permanentEffects.Values)
+        {
+            ((BattleStatusEffect)eff).Activate(EffectActivationTrigger.On_Attack);
+        }
+        target.TryDamage(attack, basePower);
+    }
+
     public void TryIfnflictStatus(StatusEffect effect)
     {
-        bool hasEffect = HasStatusEffect(effect);
-        if (!hasEffect && !IsImmuneTo(effect))
-            statusEffects.Add(effect.effect, effect);
-        else if (hasEffect)
-            statusEffects[effect.effect] = effect;
+        bool hasEffect = HasStatusEffect(effect.effect);
+        
     }
 
     void DoDamageAnimation()

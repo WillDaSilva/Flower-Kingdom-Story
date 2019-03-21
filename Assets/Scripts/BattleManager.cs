@@ -8,9 +8,9 @@ public class BattleManager : MonoBehaviour
 {
     public BattleEntity[] battleEntities = new BattleEntity[8];
     [SerializeField]
-    int maxPartners;//Max amount of partners that can be in battle (not including player)
+    int maxPlayerEntities;//Max amount of partners that can be in battle (not including player)
     [SerializeField]
-    int maxEnemies; //Max amount of enemies that can be in battle
+    int maxEnemyEntities; //Max amount of enemies that can be in battle
     //[SerializeField]
     public int turn;// { get; private set; } // turn number - ranges between 0 and (maxPartners+maxEnemies)(Ex)
     [SerializeField]
@@ -19,10 +19,14 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     int timesAround; //times every entity has gotten a turn and turn has overflowed back to 0
     public BattleStates battleState;
+    public Action currentAction;
 
 
     public List<Vector3> startPositions;
     public List<Transform> startPositionTransforms;
+
+
+    public Transform currentEntity_Arrow;
 
     void OnValidate()
     {
@@ -44,17 +48,18 @@ public class BattleManager : MonoBehaviour
     }
     void Start()
     {
+        playerTurn = true;
         UpdateEntityIndexes();
         foreach (BattleEntity e in battleEntities)
         {
             e.animator = e.transform.GetComponentInChildren<Animator>();
         }
 
-        Attack pounce = new Attack("Pounce", AttackablePositions.Any, new GroundStates[] { GroundStates.Ground }, new Bounce());
+        Attack pounce = new Attack("Pounce", true, Elements.None, AttackablePositions.Any, new GroundStates[] { GroundStates.Ground, GroundStates.Floating, GroundStates.Flying }, new Pounce());
         battleEntities[1].attacks.Add(pounce);
         battleEntities[0].currentHealth = Managers.Stats.currentHealth;
-        if (maxPartners > 0)
-            for (int i = 1; i > maxPartners; i++)
+        if (maxPlayerEntities > 0)
+            for (int i = 1; i > maxPlayerEntities; i++)
             {
                 battleEntities[i].currentHealth = Managers.Stats.Partners[Managers.Stats.ActivePartners[i - 1]].currentHealth;
 
@@ -77,58 +82,111 @@ public class BattleManager : MonoBehaviour
             trigger = false;
             NextTurn();
         }
+        if (currentAction == null && !playerTurn)
+        {
+            NextTurn();
+        }
         if (Input.GetButtonDown("Jump"))
         {
-            battleEntities[1].attacks[0].Start(new BattleEntity[] { battleEntities[1] }, new BattleEntity[] { battleEntities[maxPartners + 1] });
+            battleEntities[1].attacks[0].Start(new BattleEntity[] { battleEntities[1] }, new BattleEntity[] { battleEntities[3] });
             
         }
+        currentEntity_Arrow.position = Camera.main.WorldToScreenPoint(battleEntities[turn].transform.position + ((battleEntities[turn].jumpAttackOffset / 2) * Vector3.up));
+        
     }
-    public void Switch(int i1, int i2)
+    void FixedUpdate()
+    {
+        if (currentAction != null && currentAction.animation != null)// && true == false)
+        {
+            currentAction.animation.OnUpdatePublic();
+            if (currentAction.animation.isDone)
+            {
+                currentAction.animation.OnAnimationComplete();
+                currentAction = null;
+            }
+        }
+    }
+    public void SwitchEntities(int i1, int i2)
     {
         BattleEntity temp = battleEntities[i1];
         battleEntities[i2] = battleEntities[i1];
         battleEntities[i1] = temp;
+        UpdateEntityIndexes();
     }
     public void NextTurn()
     {
         if (!battleEntities[turn].HasStatusEffect(StatusEffects.Fast))
         {
-            turn = Math.Wrap(turn + 1, 0, 7);
-            OnAllComplete();
+            turn = Maths.Wrap(turn + 1, 0, 7);
+            OnAllTurnsComplete();
             int i = 0;
-            while (!battleEntities[turn].canAttack) //keep skipping an entity's turn if it is unable to make a move
+            //keep skipping an entity's turn if it is unable to make a move
+            while (!battleEntities[turn].canAttack) 
             {
                 i++;
                 NextTurn();
-                OnAllComplete();
-                if (i > 100) //failsafe to prevent a crash for if nobody can make a move.
+                OnAllTurnsComplete();
+                //failsafe to prevent a crash for if nobody can make a move.
+                if (i > 100)
+                {
+                    Debug.Log("BattleEntity at index " + i + " was unable to make a decision on what move to make.");
                     break;
+                }
             }
-            if (turn < maxPartners)
+            if (turn < maxPlayerEntities)
                 playerTurn = true;
             else playerTurn = false;
         }
     }
 
-    void FirstStrike()
+    //an attack that does not use up a turn and is only obtainable through attacking an enemy in the overworld
+    void FirstStrike(Attack strikeAttack)
     {
 
+        /*switch (strikeType)
+        {
+            case "Yoyo":
+                battleEntities[0].attacks[1].Start(new[] { battleEntities[0] }, new[] { battleEntities[maxPartners] });
+                break;
+            case "Punch":
+                battleEntities[0].attacks[0].Start(new[] { battleEntities[0] }, new[] { battleEntities[maxPartners] });
+                break;
+            case "Jump":
+                battleEntities[1].attacks[1].Start(new[] { battleEntities[0] }, new[] { battleEntities[maxPartners] });
+                break;
+            case "SpaceJump":
+                battleEntities[1].attacks[2].Start(new[] { battleEntities[0] }, new[] { battleEntities[maxPartners] });
+                break;
+            case "MallowToss":
+                break;
+            case "Ice":
+                break;
+        }*/
     }
-
-    void OnAllComplete() //checks if turn has returned to 0, is not checked if entering into battle
+    //checks if turn has returned to 0, is not checked if entering into battle
+    void OnAllTurnsComplete() 
     {
-
         if (turn == 0)
             timesAround++;
         {
             foreach (BattleEntity battleEntity in battleEntities)
             {
-                //battleEntity.RunStatusEffects();
+                foreach (StatusEffect statusEffect in battleEntity.statusEffects.Values)
+                    ((BattleStatusEffect)statusEffect).Burst();
+                //battleEntity.statusEffects.
             }
         }
     }
+    public void LoadBattle()
+    {
 
-    void Struck()
+    }
+    //the attack that you are struck by by an enemy in the overworld
+    void Struck(Attack struckAttack)
+    {
+
+    }
+    public void AddNewEntity()
     {
 
     }
