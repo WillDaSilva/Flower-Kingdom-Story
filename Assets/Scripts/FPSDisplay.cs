@@ -26,7 +26,7 @@ public class FPSDisplay : MonoBehaviour {
         FPS = 1 / Time.smoothDeltaTime;
 
         fpsList[x] = (int)FPS;
-        x = Math.Wrap(x + 1, 0, maxIterations-1);
+        x = Maths.Wrap(x + 1, 0, maxIterations-1);
         int fpsSum = 0;
         minFPS = 999;
         maxFPS = 0;

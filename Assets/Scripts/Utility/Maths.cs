@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Math {
+public class Maths {
 	public static int Wrap(int x, int min, int max){//x,l,h
 		max = max - min + 1 ; x = (x - min) % max + min; if (x < min) x += max;
 		return x;

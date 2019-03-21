@@ -62,7 +62,7 @@ public class BattleUIManager : MonoBehaviour {
     }
     void Iterate()
     {
-        selectedIndex = Math.Wrap(selectedIndex + (int)Mathf.Sign(v), 0, selectionLength);
+        selectedIndex = Maths.Wrap(selectedIndex + (int)Mathf.Sign(v), 0, selectionLength);
     }
 }
 
