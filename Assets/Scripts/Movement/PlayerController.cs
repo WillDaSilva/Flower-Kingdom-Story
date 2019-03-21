@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
     {
         float r = spriteRotation.currentAngle;// * 2;
         if (!groundCheck.grounded)
-            rigidBody.AddForce(Physics.gravity);
+            rigidBody.AddForce(Physics.gravity,ForceMode.Acceleration);
         //else rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0, rigidBody.velocity.z);
         
 
@@ -58,31 +58,31 @@ public class PlayerController : MonoBehaviour {
             {
                 if (Input.GetAxis("Horizontal") < 0)
                 {
-                    spriteRotation.targetAngle = 180;
+                    spriteRotation.targetAngle = 90;
                 }
                 else if (Input.GetAxis("Horizontal") > 0)
                 {
-                    spriteRotation.targetAngle = 270;
-                }
-
-                if (spriteRotation.targetAngle == 90)
-                {
                     spriteRotation.targetAngle = 180;
                 }
-                else if (spriteRotation.targetAngle == 0)
+
+                if (spriteRotation.targetAngle == 0)
                 {
-                    spriteRotation.targetAngle = 270;
+                    spriteRotation.targetAngle = 90;
+                }
+                else if (spriteRotation.targetAngle == 270)
+                {
+                    spriteRotation.targetAngle = 180;
                 }
             }
             else if (Input.GetAxis("Horizontal") != 0)
             {
                 if (Input.GetAxis("Horizontal") < 0)
                 {
-                    spriteRotation.targetAngle = 90;
+                    spriteRotation.targetAngle = 0;
                 }
                 else if (Input.GetAxis("Horizontal") > 0)
                 {
-                    spriteRotation.targetAngle = 0;
+                    spriteRotation.targetAngle = 270;
                 }
                 /*if (spriteRotation.targetAngle == 180)
                 {
@@ -97,9 +97,9 @@ public class PlayerController : MonoBehaviour {
             {
                 if (spriteRotation.targetAngle == 180)
                 {
-                    spriteRotation.targetAngle = 90;
+                    spriteRotation.targetAngle = 270;
                 }
-                else if (spriteRotation.targetAngle == 270)
+                else if (spriteRotation.targetAngle == 90)
                 {
                     spriteRotation.targetAngle = 0;
                 }
@@ -109,31 +109,33 @@ public class PlayerController : MonoBehaviour {
 
         #region scaling
         float totaZScale = billboarder.zScale;// * billboarder.camSide;
-        if (r > 0 && r < 90)        //backright to backleft
+
+        if (swapper != null)
+            if (r > 0 && r < 90)        //backleft to topleft
         {
             //rotationT.localScale = new Vector3(billboarder.camSide, 1, totaZScale);
-            swapper.LoadSprites(null);
+            if (totaZScale == 1)
+                swapper.LoadSprites(null);
+            else if (totaZScale == -1)
+                swapper.LoadSprites("back");
         }
-        else if (r > 90 && r < 180) //backleft to topleft
+        else if (r > 90 && r < 180) //topleft to topright
         {
             //rotationT.localScale = new Vector3(-totaZScale, 1, totaZScale);
-            if (totaZScale == 1)
-                swapper.LoadSprites("back");
-            else if (totaZScale == -1)
-                swapper.LoadSprites(null);
-        }
-        else if (r > 180 && r < 270)//topleft to topright
-        {
-            //rotationT.localScale = new Vector3(-billboarder.camSide, 1, totaZScale);
             swapper.LoadSprites("back");
         }
-        else if (r > 270 && r < 720)//topright to backright
+        else if (r > 180 && r < 270)//toptight to backright
+        {
+            //rotationT.localScale = new Vector3(-billboarder.camSide, 1, totaZScale);
+            if (totaZScale == 1)
+                swapper.LoadSprites("back");
+            else if (totaZScale == -1)
+                swapper.LoadSprites(null);
+        }
+        else if (r > 270 && r < 360)//backright to backleft
         {
             //rotationT.localScale = new Vector3(totaZScale, 1, totaZScale);
-            if (totaZScale == 1)
-                swapper.LoadSprites(null);
-            else if (totaZScale == -1)
-                swapper.LoadSprites("back");
+            swapper.LoadSprites(null);
         }
         #endregion
 
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour {
             if (Joysticks.LStick.StepInput.magnitude != 0)
             {
                 //if (rigidBody.velocity.magnitude > 0.1)
-                animator.Play("Walk 0");
+                animator.Play("Walk");
                 animator.SetFloat("Speed", Joysticks.LStick.StepInput.magnitude/2 + 0.5f );
             }
             else animator.Play("Idle");
