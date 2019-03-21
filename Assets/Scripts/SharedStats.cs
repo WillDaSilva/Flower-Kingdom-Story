@@ -32,7 +32,18 @@ public class SharedStats : MonoBehaviour {
     public List<int> ActivePartners; //It's a List<int> so we can reference the partner through Partners[ActivePartners[i]]
 
     public Inventory inventory;//
+    public void GiveAP(int pointsToAdd)
+    {
+        abilityPoints = Mathf.Clamp(abilityPoints + pointsToAdd, 0, maxAbilityPoints);
+    }
+    public void GiveCoins(int coinsToAdd)
+    {
+        coins = Mathf.Clamp(coins + coinsToAdd, 0, maxCoins);
+    }
+    public void LevelUp(StatType statType)
+    {
 
+    }
     /*public void ChangeStats(StatType sT, int value)
     {
         switch (sT)
