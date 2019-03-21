@@ -18,4 +18,17 @@ public class Managers: MonoBehaviour {
             Transform t = GameObject.FindWithTag("Player").transform;
         
     }
+    void Start()
+    {
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in allObjects)
+        {
+            Renderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                spriteRenderer.receiveShadows = true;
+            }
+        }
+    }
 }
