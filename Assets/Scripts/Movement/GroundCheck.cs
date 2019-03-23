@@ -8,8 +8,8 @@ public class GroundCheck : MonoBehaviour {
     public float maxStepHeight, tolerance, maxAngle;
     BoxCollider box;
     //RaycastHit[,] hits = new RaycastHit[3, 3];
-    RaycastHit[] hits = new RaycastHit[9];
-    bool[] rayHits = new bool[9];
+    RaycastHit[] hits = new RaycastHit[4];
+    bool[] rayHits = new bool[4];
 
     bool groundedLastFrame = false;
     float lastFrameHeight;
@@ -37,18 +37,10 @@ public class GroundCheck : MonoBehaviour {
         0,2 | 1,2 | 2,2
         */
 
-        rayHits[0] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, boxZ)), Vector3.down, out hits[0]);//[1, 0]);//Top
-        rayHits[1] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, -boxZ)), Vector3.down, out hits[1]);//[1, 2]);//Bot
-        rayHits[2] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, 0)), Vector3.down, out hits[2]);//[0, 1]);//Left
-        rayHits[3] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, 0)), Vector3.down, out hits[3]);//[2, 1]);//Right
-
-        rayHits[4] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(0, maxStepHeight, 0)), Vector3.down, out hits[4]);//[1, 1]);//Mid
-
-        rayHits[5] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, boxZ)), Vector3.down, out hits[5]);//[0, 0]);//TopLeft
-        rayHits[6] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, boxZ)), Vector3.down, out hits[6]);//[2, 0]);//TopRight
-        rayHits[7] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[7]);//[0, 2]);//BotLeft
-        rayHits[8] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[8]);//[2, 2]);//BotRight
-
+        rayHits[0] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, boxZ)), Vector3.down, out hits[0]);//[1, 0]);//Top Left
+        rayHits[1] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(-boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[1]);//[1, 2]);//Bottom Left
+        rayHits[2] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, boxZ)), Vector3.down, out hits[2]);//[0, 1]);//Top Right
+        rayHits[3] = Physics.Raycast(transform.position + transform.TransformDirection(new Vector3(boxX, maxStepHeight, -boxZ)), Vector3.down, out hits[3]);//[2, 1]);//Bottom Right
 
         int i = 0;
         grounded = false;
