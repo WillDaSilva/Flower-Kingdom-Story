@@ -127,9 +127,9 @@ public class BattleEntity
         //if is a piercing attack
         else totalDamage = basePower;
 
-        if (IsWeakTo(attack.element))
+        if (IsWeakAgainst(attack.element))
             totalDamage += 2;
-        else if (IsStrongTo(attack.element))
+        else if (IsStrongAgainst(attack.element))
             totalDamage -= 2;
 
         if (element == attack.element && attack.element != Elements.None)
