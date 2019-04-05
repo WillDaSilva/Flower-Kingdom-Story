@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -99,7 +99,7 @@ public class BattleEntity
     }
     public void RemoveStatusEffect(StatusEffects effect)
     {
-
+        statusEffects.Remove(effect);
     }
     public bool IsImmuneTo(StatusEffects effect)
     {
@@ -108,11 +108,11 @@ public class BattleEntity
         return false;
     }
 
-    bool IsWeakTo(Elements element)
+    bool IsWeakAgainst(Elements element)
     {
         return false;//replace with elemt damage calculation
     }
-    bool IsStrongTo(Elements element)
+    bool IsStrongAgainst(Elements element)
     {
         return false;//replace with elemt damage calculation
     }
