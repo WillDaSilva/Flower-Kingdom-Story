@@ -10,7 +10,7 @@ public class Managers: MonoBehaviour {
     void Awake()
     {
 
-        battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
+        battleManager = FindObjectOfType<BattleManager>();
         
         uiManager = GetComponentInChildren<UIManager>();
         Stats = transform.FindChild("SharedStats").GetComponent<SharedStats>();//GetComponentInChildren<SharedStats>();
@@ -20,15 +20,11 @@ public class Managers: MonoBehaviour {
     }
     void Start()
     {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        foreach (GameObject obj in allObjects)
+        SpriteRenderer[] allObjects = FindObjectsOfType<SpriteRenderer>();
+        foreach (SpriteRenderer spriteRenderer in allObjects)
         {
-            Renderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
                 spriteRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 spriteRenderer.receiveShadows = true;
-            }
         }
     }
 }
