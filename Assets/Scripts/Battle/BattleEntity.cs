@@ -117,7 +117,7 @@ public class BattleEntity
         return false;//replace with elemt damage calculation
     }
     
-    void TryDamage(Attack attack, int basePower)
+    public void TryDamage(Attack attack, int basePower)
     {
         int totalDamage;
 
