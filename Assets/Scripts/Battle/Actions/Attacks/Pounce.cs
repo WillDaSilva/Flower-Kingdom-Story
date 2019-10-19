@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -92,6 +92,7 @@ public class Bounce: TempAttackAnimation
                     users[0].transform.position = endPosition + jumpHitHeight * Vector3.up;
                     i = 2;
                     users[0].animator.Play("Jump");
+                    targets[0].TryDamage(attack, users[0].baseAttack);
                 }
                 break;
             case 2: //bounce off enemy, back onto enemy
@@ -117,6 +118,7 @@ public class Bounce: TempAttackAnimation
                     i = 3;
                     canDo = true;
                     users[0].animator.Play("Jump");
+                    targets[0].TryDamage(attack, users[0].baseAttack);
                 }
                 break;
             case 3: //bounce off enemy on to ground
